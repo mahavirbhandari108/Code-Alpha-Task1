@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Book</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #efeb15;
+        }
+
+        header {
+            text-align: center;
+            padding: 10px;
+            background-color: #1410e6;
+            color: white;
+        }
+
+        #recipe-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .recipe {
+            border: 1px solid #05ccaefe;
+            margin: 10px 0;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .recipe button {
+            cursor: pointer;
+            background-color: #e12727;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            transition: background-color 0.3s;
+        }
+
+        .recipe button:hover {
+            background-color: #e62c2c;
+        }
+
+        form {
+            background-color: #14efd5;
+            padding: 30px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label, textarea, input {
+            display: block;
+            margin-bottom: 10px;
+            width: 100%;
+        }
+
+        textarea, input {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #4be9ecf1;
+            border-radius: 3px;
+            transition: border-color 0.3s;
+        }
+
+        textarea:hover, input:hover, textarea:focus, input:focus {
+            border-color: #26d32c;
+        }
+
+        .recommendations {
+            margin-top: 10px;
+        }
+
+        .recommendations button {
+            cursor: pointer;
+            background-color: #26d32c;
+            color: rgb(247, 247, 247);
+            border: none;
+            padding: 1px 10px;
+            margin-right: 5px;
+            border-radius: 3px;
+            transition: background-color 0.3s;
+        }
+
+        .recommendations button:hover {
+            background-color: #21b626;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Recipe Book</h1>
+    </header>
+
+    <div>
+        <h2>Add Recipe</h2>
+        <form id="add-form">
+            <label for="recipe-name">Recipe Name:</label>
+            <input type="text" id="recipe-name" required>
+            <label for="ingredients">Ingredients:</label>
+            <textarea id="ingredients" rows="6" required></textarea>
+            <div class="recommendations">
+                <button type="button" onclick="addRecommendation('Sugar')">Sugar</button>
+                <button type="button" onclick="addRecommendation('Salt')">Salt</button>
+                <button type="button" onclick="addRecommendation('Chilly Power')">Chilly  Power</button>
+                <button type="button" onclick="addRecommendation('Water')">Water</button>
+                <button type="button" onclick="addRecommendation('Cooking Oil')">Cooking Oil</button>
+                <button type="button" onclick="addRecommendation('Ginger')">Ginger</button>
+                <button type="button" onclick="addRecommendation('Spices')">Spices</button>
+                <button type="button" onclick="addRecommendation('Garlic')">Garlic</button>
+                <button type="button" onclick="addRecommendation('Black Pepper')">Black Pepper</button>
+                <button type="button" onclick="addRecommendation('Turmeric')">Turmeric</button>
+                <button type="button" onclick="addRecommendation('Clove')">Clove</button>
+                <button type="button" onclick="addRecommendation('Curry Leaves')">Curry Leaves</button>
+                <button type="button" onclick="addRecommendation('Cumin Seeds')">Cumin Seeds</button>
+                <button type="button" onclick="addRecommendation('Bay Leaves')">Bay Leaves</button>
+                <button type="button" onclick="addRecommendation('Saffron')">Saffron</button>
+                <button type="button" onclick="addRecommendation('Star Anise')">Star Anise</button>
+                <button type="button" onclick="addRecommendation('Cardomom')">Cardomom</button>
+                <button type="button" onclick="addRecommendation('Coriander')">Coriander</button>
+                <button type="button" onclick="addRecommendation('Poppy Seeds')">Poppy Seeds</button>
+                <button type="button" onclick="addRecommendation('Sesame')">Sesame</button>
+                <button type="button" onclick="addRecommendation('White Pepper')">White Pepper</button>
+                <!-- Add more recommendation buttons as needed -->
+            </div>
+            <button type="button" onclick="addRecipe()">Add Recipe</button>
+        </form>
+    </div>
+
+    <div>
+        <h2>Recipe List</h2>
+        <ul id="recipe-list"></ul>
+    </div>
+
+    <script>
+        function addRecommendation(recommendation) {
+            const ingredientsInput = document.getElementById('ingredients');
+            ingredientsInput.value += ` ${recommendation},`;
+        }
+
+        function addRecipe() {
+            const nameInput = document.getElementById('recipe-name');
+            const ingredientsInput = document.getElementById('ingredients');
+
+            const name = nameInput.value;
+            const ingredients = ingredientsInput.value.trim();
+
+            if (name && ingredients) {
+                const recipeList = document.getElementById('recipe-list');
+
+                const recipeItem = document.createElement('li');
+                recipeItem.className = 'recipe';
+
+                const recipeDetails = document.createElement('div');
+                recipeDetails.innerHTML = `<strong>${name}</strong><br>${ingredients}`;
+
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Delete';
+                deleteButton.onclick = function() {
+                    recipeList.removeChild(recipeItem);
+                };
+
+                recipeItem.appendChild(recipeDetails);
+                recipeItem.appendChild(deleteButton);
+                recipeList.appendChild(recipeItem);
+
+                // Clear input fields
+                nameInput.value = '';
+                ingredientsInput.value = '';
+            } else {
+                alert('Please fill out both recipe name and ingredients.');
+            }
+        }
+    </script>
+</body>
+</html>
